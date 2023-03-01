@@ -45,7 +45,7 @@ export default function Location(props) {
       dispatch({ type: "update", payload: [location, before, false] });
     }
 
-    props.callback();
+    // props.callback();
   };
 
   return (

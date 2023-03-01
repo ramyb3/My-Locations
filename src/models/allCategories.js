@@ -1,9 +1,9 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import "./style.css";
 
-export default function AllCategories(props) {
+export default function AllCategories() {
   const storeData = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   return (
     <ul>
@@ -13,7 +13,12 @@ export default function AllCategories(props) {
             <Link
               className="highlight"
               to=""
-              onClick={() => props.callback([data, 3, "categories"])}
+              onClick={() =>
+                dispatch({
+                  type: "clickedItem",
+                  payload: [data, 3, "categories"],
+                })
+              }
             >
               {data}
             </Link>

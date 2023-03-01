@@ -15,7 +15,7 @@ export default function AddCategory() {
     } else if (category === "") {
       alert("You need to enter a name before saving!!");
     } else {
-      dispatch({ type: "addCategory", payload: category });
+      dispatch({ type: "add", payload: [category, true] });
     }
   };
 

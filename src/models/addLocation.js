@@ -27,7 +27,7 @@ export default function AddLocation() {
     ) {
       alert("You need to fill all form before saving!!");
     } else {
-      dispatch({ type: "addLocation", payload: location });
+      dispatch({ type: "add", payload: [location, false] });
     }
   };
 

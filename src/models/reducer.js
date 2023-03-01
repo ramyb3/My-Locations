@@ -3,27 +3,16 @@ function reducer(state = {}, action) {
     case "LOAD": {
       return action.payload;
     }
-    case "addCategory": {
-      state.categories.push(action.payload);
-      return state;
-    }
-    case "addLocation": {
-      state.locations.push(action.payload);
+    case "add": {
+      state[action.payload[1] ? "categories" : "locations"].push(
+        action.payload
+      );
       return state;
     }
     case "update": {
-      if (action.payload[2]) {
-        state.categories = state.categories.filter(
-          (data) => data !== action.payload[1]
-        );
-        state.categories.push(action.payload[0]);
-      } else {
-        state.locations = state.locations.filter(
-          (data) => data !== action.payload[1]
-        );
-        state.locations.push(action.payload[0]);
-      }
-
+      const type = action.payload[2] ? "categories" : "locations";
+      state[type] = state[type].filter((data) => data !== action.payload[1]);
+      state[type].push(action.payload[0]);
       return state;
     }
     case "delete": {
@@ -38,6 +27,9 @@ function reducer(state = {}, action) {
       }
 
       return state;
+    }
+    case "clickedItem": {
+      return { ...state, item: action.payload };
     }
 
     default:

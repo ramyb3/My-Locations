@@ -27,7 +27,7 @@ export default function Category(props) {
       dispatch({ type: "update", payload: [name, before, true] });
     }
 
-    props.callback();
+    // props.callback();
   };
 
   return (
