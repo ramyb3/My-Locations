@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 
-export default function Menu(props) {
+export default function Menu() {
   const storeData = useSelector((state) => state);
   const dispatch = useDispatch();
   const [check, setCheck] = useState(0);
@@ -19,6 +19,10 @@ export default function Menu(props) {
 
     dispatch({ type: "LOAD", payload: { categories, locations, item } });
   }, []);
+
+  if (!storeData.item) {
+    return null;
+  }
 
   return (
     <>
@@ -51,7 +55,7 @@ export default function Menu(props) {
               />
             ) : null}
 
-            {check === 1 && storeData.item.length === 0 ? (
+            {check === 1 ? (
               <Links
                 className="link"
                 link="/addLocation"

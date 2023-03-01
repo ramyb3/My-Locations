@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 
-export default function Category(props) {
+export default function Category() {
   const storeData = useSelector((state) => state);
   const dispatch = useDispatch();
   const params = useParams();
@@ -26,8 +26,6 @@ export default function Category(props) {
     } else {
       dispatch({ type: "update", payload: [name, before, true] });
     }
-
-    // props.callback();
   };
 
   return (

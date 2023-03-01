@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 
-export default function Location(props) {
+export default function Location() {
   const storeData = useSelector((state) => state);
   const dispatch = useDispatch();
   const params = useParams();
@@ -44,8 +44,6 @@ export default function Location(props) {
     } else {
       dispatch({ type: "update", payload: [location, before, false] });
     }
-
-    // props.callback();
   };
 
   return (
