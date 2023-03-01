@@ -69,30 +69,21 @@ export default function Edit(props) {
               <Input
                 value={props.data.address}
                 onChange={(e) =>
-                  props.setData({
-                    ...props.data,
-                    address: e.target.value,
-                  })
+                  props.setData({ ...props.data, address: e.target.value })
                 }
                 text="Location Address"
               />
               <Input
                 value={props.data.coordinates}
                 onChange={(e) =>
-                  props.setData({
-                    ...props.data,
-                    coordinates: e.target.value,
-                  })
+                  props.setData({ ...props.data, coordinates: e.target.value })
                 }
                 text="Location Coordinates"
               />
               <Input
                 value={props.data.category}
                 onChange={(e) =>
-                  props.setData({
-                    ...props.data,
-                    category: e.target.value,
-                  })
+                  props.setData({ ...props.data, category: e.target.value })
                 }
                 text="Location Category"
               />
