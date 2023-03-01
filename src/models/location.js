@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 
 export default function Location(props) {
-  const storeData = useSelector((state) => state); // get data from store
-
-  // 2 objects - 1 before update, 1 updated data
+  const storeData = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const params = useParams();
   const [location, setLocation] = useState({
     name: "",
     address: "",
@@ -19,139 +19,110 @@ export default function Location(props) {
     category: "",
   });
 
-  const dispatch = useDispatch(); // calling to reducer
+  useEffect(() => {
+    const temp = params.id.split("+"); // get location name
 
-  const params = useParams(); //get params from route
+    setLocation(storeData[0][1].find((data) => data.name === temp[0]));
+    setBefore(storeData[0][1].find((data) => data.name === temp[0]));
+  }, [params]);
 
   const send = () => {
-    let ok = true; // boolean flag
-
-    //check if location exists
     if (
-      location.name == before.name &&
-      location.address == before.address &&
-      location.coordinates == before.coordinates &&
-      location.category == before.category
+      location.name === before.name &&
+      location.address === before.address &&
+      location.coordinates === before.coordinates &&
+      location.category === before.category
     ) {
-      ok = false; //there is error
-
       alert("This location already exists!!");
-    }
-
-    //check if all data in location filled
-    if (
-      location.name == "" ||
-      location.address == "" ||
-      location.coordinates == "" ||
-      location.category == ""
+    } else if (
+      location.name === "" ||
+      location.address === "" ||
+      location.coordinates === "" ||
+      location.category === ""
     ) {
-      ok = false; //there is error
-
       alert("You need to fill all form before updating!!");
+    } else {
+      dispatch({ type: "update", payload: [location, before, "locations"] });
     }
 
-    if (ok == true)
-      // no errors
-      dispatch({ type: "update", payload: [location, before, "locations"] });
-
-    props.callback(); //father props is empty
+    props.callback();
   };
 
-  useEffect(() => {
-    let temp = params.id.split("+"); // get location name
-
-    setLocation(storeData[0][1].find((x) => x.name == temp[0])); //set updated location data
-    setBefore(storeData[0][1].find((x) => x.name == temp[0])); //set pre-update location data
-  }, [params]); // comp changes every time params change
-
   return (
-    <div style={{ textAlign: "center", fontSize: "20px" }}>
-      <br />
-
-      {params.id.endsWith("view") ? ( // check if view or update
-        //view
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "15px",
+        alignItems: "center",
+        fontSize: "20px",
+        paddingTop: "15px",
+      }}
+    >
+      {params.id.endsWith("view") ? (
         <>
-          <u>
-            <b>Location Name:</b>
-          </u>{" "}
-          {location.name}
-          <br />
-          <u>
-            <b>Location Address:</b>
-          </u>{" "}
-          {location.address}
-          <br />
-          <u>
-            <b>Location Coordinates:</b>
-          </u>{" "}
-          {location.coordinates}
-          <br />
-          <u>
-            <b>Location Category:</b>
-          </u>{" "}
-          {location.category}
-          <br />
+          <Span text="Name" value={location.name} />
+          <Span text="Address" value={location.address} />
+          <Span text="Coordinates" value={location.coordinates} />
+          <Span text="Category" value={location.category} />
         </>
       ) : (
-        //update - form to update
         <>
-          <b>Location Name:</b>{" "}
-          <input
+          <Input
             value={location.name}
-            type="text"
-            style={{ fontSize: "20px", height: "30px" }}
             onChange={(e) => setLocation({ ...location, name: e.target.value })}
+            text="Name"
           />
-          <br />
-          <br />
-          <b>Location Address:</b>{" "}
-          <input
+          <Input
             value={location.address}
-            type="text"
-            style={{ fontSize: "20px", height: "30px" }}
             onChange={(e) =>
               setLocation({ ...location, address: e.target.value })
             }
+            text="Address"
           />
-          <br />
-          <br />
-          <b>Location Coordinates:</b>{" "}
-          <input
+          <Input
             value={location.coordinates}
-            type="text"
-            style={{ fontSize: "20px", height: "30px" }}
             onChange={(e) =>
               setLocation({ ...location, coordinates: e.target.value })
             }
+            text="Coordinates"
           />
-          <br />
-          <br />
-          <b>Location Category:</b>{" "}
-          <input
+          <Input
             value={location.category}
-            type="text"
-            style={{ fontSize: "20px", height: "30px" }}
             onChange={(e) =>
               setLocation({ ...location, category: e.target.value })
             }
+            text="Category"
           />
-          <br />
-          <br />
           <Link to="/allLocations">
-            <input
-              value="Update"
-              type="button"
-              style={{
-                cursor: "pointer",
-                height: "40px",
-                fontSize: "20px",
-                width: "80px",
-              }}
-              onClick={send}
-            />
+            <button onClick={send}>Update</button>
           </Link>
         </>
       )}
     </div>
+  );
+}
+
+function Input(props) {
+  return (
+    <div>
+      <b>Location {props.text}: </b>
+      <input
+        value={props.value}
+        onChange={props.onChange}
+        style={{ fontSize: "20px", height: "30px" }}
+      />
+    </div>
+  );
+}
+
+function Span(props) {
+  return (
+    <span>
+      <u>
+        <b>Location {props.text}:</b>
+      </u>{" "}
+      {props.value}
+    </span>
   );
 }

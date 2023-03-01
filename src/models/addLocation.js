@@ -3,10 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function AddLocation() {
-  const dispatch = useDispatch(); // calling to reducer
-
-  const storeData = useSelector((state) => state); // get data from store
-
+  const dispatch = useDispatch();
+  const storeData = useSelector((state) => state);
   const [location, setLocation] = useState({
     name: "",
     address: "",
@@ -15,83 +13,63 @@ export default function AddLocation() {
   });
 
   const send = () => {
-    let check = storeData[0][1].find((x) => x.name == location.name); // check other locations with same name
+    const check = storeData[0][1].find((data) => data.name === location.name); // check other locations with same name
 
-    let ok = true; // boolean flag
-
-    if (check != undefined)
-      //check if location exists
+    if (check) {
       alert("This location already exists!!");
-
-    //check if all data in location filled
-    if (
-      location.name == "" ||
-      location.address == "" ||
-      location.coordinates == "" ||
-      location.category == ""
+    } else if (
+      location.name === "" ||
+      location.address === "" ||
+      location.coordinates === "" ||
+      location.category === ""
     ) {
-      ok = false; //there is error
-
       alert("You need to fill all form before saving!!");
-    }
-
-    if (ok == true && check == undefined)
-      // no errors
+    } else {
       dispatch({ type: "addLocation", payload: location });
+    }
   };
 
   return (
-    <div style={{ textAlign: "center" }}>
-      <br />
-
-      <input
-        placeholder="Enter location name"
-        type="text"
-        style={{ fontSize: "20px", height: "30px" }}
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "10px",
+        paddingTop: "15px",
+      }}
+    >
+      <Input
+        placeholder="name"
         onChange={(e) => setLocation({ ...location, name: e.target.value })}
       />
-      <br />
-      <br />
-      <input
-        placeholder="Enter location address"
-        type="text"
-        style={{ fontSize: "20px", height: "30px" }}
+      <Input
+        placeholder="address"
         onChange={(e) => setLocation({ ...location, address: e.target.value })}
       />
-      <br />
-      <br />
-      <input
-        placeholder="Enter location coordinates"
-        type="text"
-        style={{ fontSize: "20px", height: "30px" }}
+      <Input
+        placeholder="coordinates"
         onChange={(e) =>
           setLocation({ ...location, coordinates: e.target.value })
         }
       />
-      <br />
-      <br />
-      <input
-        placeholder="Enter location category"
-        type="text"
-        style={{ fontSize: "20px", height: "30px" }}
+      <Input
+        placeholder="category"
         onChange={(e) => setLocation({ ...location, category: e.target.value })}
       />
-      <br />
-      <br />
-
       <Link to="/allLocations">
-        <input
-          type="button"
-          onClick={send}
-          value="Add"
-          style={{
-            cursor: "pointer",
-            height: "40px",
-            fontSize: "20px",
-            width: "80px",
-          }}
-        />
+        <button onClick={send}>Add</button>
       </Link>
     </div>
+  );
+}
+
+function Input(props) {
+  return (
+    <input
+      placeholder={`Enter location ${props.placeholder}`}
+      onChange={props.onChange}
+      style={{ fontSize: "20px", height: "30px" }}
+    />
   );
 }

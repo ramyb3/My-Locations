@@ -9,39 +9,33 @@ import { Route, Routes } from "react-router-dom";
 import { useState } from "react";
 
 export default function App() {
-  const [props, setProps] = useState(); // props element between routes
+  const [props, setProps] = useState();
 
   return (
-    <div>
+    <div style={{ paddingTop: "80px" }}>
       <Routes>
         <Route
           path="/"
           element={<MenuComp data={props} callback={() => setProps()} />}
         >
-          {" "}
-          {/* nav bar - main route, props= undefined*/}
           <Route
             path="allCategories"
             element={<AllCategories callback={(data) => setProps(data)} />}
-          />{" "}
-          {/* props= data*/}
+          />
           <Route
             path="allLocations"
             element={<AllLocations callback={(data) => setProps(data)} />}
-          />{" "}
-          {/* props= data*/}
+          />
           <Route path="addCategory" element={<AddCategory />} />
           <Route path="addLocation" element={<AddLocation />} />
           <Route
             path="categories/:id"
             element={<Category callback={() => setProps()} />}
-          />{" "}
-          {/* props= undefined*/}
+          />
           <Route
             path="locations/:id"
             element={<Location callback={() => setProps()} />}
-          />{" "}
-          {/* props= undefined*/}
+          />
         </Route>
       </Routes>
     </div>

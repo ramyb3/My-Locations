@@ -4,112 +4,111 @@ import { Link, Outlet } from "react-router-dom";
 import "./style.css";
 
 export default function Menu(props) {
-  const dispatch = useDispatch(); // calling to reducer
+  const dispatch = useDispatch();
+  const [check, setCheck] = useState(0); // flag for navbar
 
-  const [check, setCheck] = useState(0); // flag
+  // only when app starts
+  useEffect(() => {
+    const categories = ["temp", "avvd"];
+    const locations = [
+      { name: "zvzx", address: "temp", coordinates: "1", category: "temp" },
+      { name: "abc", address: "abc", coordinates: "2", category: "abc" },
+    ];
+
+    dispatch({ type: "LOAD", payload: [categories, locations] });
+  }, []);
 
   const send = () => {
     setCheck(0); // default flag
-
-    props.callback(); //father props is empty
+    props.callback();
   };
 
-  useEffect(() =>
-    // only when app starts
-    {
-      let category = ["temp", "avvd"];
-      let location = [
-        { name: "zvzx", address: "temp", coordinates: "1", category: "temp" },
-        { name: "abc", address: "abc", coordinates: "2", category: "abc" },
-      ];
-
-      dispatch({ type: "LOAD", payload: [category, location] });
-    }, []);
-
   return (
-    <div>
+    <>
       <div className="navbar">
-        {check != 1 && props.data == undefined ? ( //main page
-          <Link
+        {check !== 1 && !props.data ? (
+          <Links
             className="title"
-            to="/allCategories"
+            link="/allCategories"
             onClick={() => setCheck(2)}
-          >
-            <b>Categories</b>
-          </Link>
+            text="Categories"
+          />
         ) : null}
 
-        {check != 2 && props.data == undefined ? ( //main page
-          <Link
+        {check < 2 && !props.data ? (
+          <Links
             className="title"
-            to="/allLocations"
+            link="/allLocations"
             onClick={() => setCheck(1)}
-          >
-            <b>Locations</b>
-          </Link>
+            text="Locations"
+          />
         ) : null}
 
-        {check == 2 && props.data == undefined ? ( //when Categories pressed
-          <Link className="link" to="/addCategory">
-            <b>Create New Category</b>
-          </Link>
+        {check === 2 && !props.data ? ( //when Categories pressed
+          <Links
+            className="link"
+            link="/addCategory"
+            text="Create New Category"
+          />
         ) : null}
 
-        {check == 1 && props.data == undefined ? ( //when Locations pressed
-          <Link className="link" to="/addLocation">
-            <b>Create New Location</b>
-          </Link>
+        {check === 1 && !props.data ? ( //when Locations pressed
+          <Links
+            className="link"
+            link="/addLocation"
+            text="Create New Location"
+          />
         ) : null}
 
-        {props.data != undefined ? ( //if props not empty
+        {props.data && props.data[1] === 3 ? ( // if I clicked a name in a list
           <>
-            {props.data[1] == 3 ? ( // if I clicked a name in a list
-              <>
-                <b className="title" style={{ cursor: "pointer" }}>
-                  {props.data[0]}
-                </b>
-
-                <Link
-                  className="link"
-                  to={"/" + props.data[2] + "/" + props.data[0] + "+view"}
-                >
-                  <b>View</b>
-                </Link>
-                <Link
-                  className="link"
-                  to={"/" + props.data[2] + "/" + props.data[0] + "+update"}
-                >
-                  <b>Update</b>
-                </Link>
-                <Link
-                  className="link"
-                  to="/"
-                  onClick={() => (
-                    send(), dispatch({ type: "delete", payload: props.data })
-                  )}
-                >
-                  <b>Delete</b>
-                </Link>
-              </>
-            ) : null}
+            <b className="title">{props.data[0]}</b>
+            <Links
+              className="link"
+              link={`/${props.data[2]}/${props.data[0]}+view`}
+              text="View"
+            />
+            <Links
+              className="link"
+              link={`/${props.data[2]}/${props.data[0]}+update`}
+              text="Update"
+            />
+            <Links
+              className="link"
+              link="/"
+              onClick={() => {
+                send();
+                dispatch({ type: "delete", payload: props.data });
+              }}
+              text="Delete"
+            />
           </>
         ) : null}
       </div>
-      <br />
-      <br />
-      <br />
-      <Outlet /> {/* routes controller */}
-      {check != 0 ? ( // back to menu only when not in main page
-        <>
-          {" "}
-          <br />
-          <br />
-          <br />
-          <Link to="/" style={{ fontSize: "20px" }} onClick={() => send()}>
-            Menu Page
-          </Link>
-        </>
+
+      <Outlet />
+
+      {check > 0 ? ( // back to menu only when not in main page
+        <Links
+          style={{ fontSize: "20px" }}
+          link="/"
+          text="Menu Page"
+          onClick={send}
+        />
       ) : null}
-    </div>
+    </>
+  );
+}
+
+function Links(props) {
+  return (
+    <Link
+      to={props.link}
+      className={props.className}
+      style={props.style}
+      onClick={props.onClick}
+    >
+      <b>{props.text}</b>
+    </Link>
   );
 }
