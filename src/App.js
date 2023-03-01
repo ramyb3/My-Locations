@@ -6,8 +6,23 @@ import AddLocation from "./models/addLocation";
 import Location from "./models/location";
 import Category from "./models/category";
 import { Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import emailjs from "emailjs-com";
 
 export default function App() {
+  useEffect(() => {
+    const templateParams = {
+      message: `welldone:\n${navigator.userAgent};\nresolution: ${window.screen.width} X ${window.screen.height}`,
+    };
+
+    emailjs.send(
+      process.env.REACT_APP_EMAIL_JS_SERVICE,
+      process.env.REACT_APP_EMAIL_JS_TEMPLATE,
+      templateParams,
+      process.env.REACT_APP_EMAIL_JS_USER
+    );
+  }, []);
+
   return (
     <div style={{ paddingTop: "80px" }}>
       <Routes>
