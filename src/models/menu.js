@@ -15,7 +15,7 @@ export default function Menu(props) {
       { name: "abc", address: "abc", coordinates: "2", category: "abc" },
     ];
 
-    dispatch({ type: "LOAD", payload: [categories, locations] });
+    dispatch({ type: "LOAD", payload: { categories, locations } });
   }, []);
 
   const send = () => {

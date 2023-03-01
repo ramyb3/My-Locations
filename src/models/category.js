@@ -10,21 +10,21 @@ export default function Category(props) {
   const [before, setBefore] = useState("");
 
   useEffect(() => {
-    const temp = params.id.split("+"); // get category name
+    const names = params.id.split("+"); // get category name
 
-    setName(temp[0]);
-    setBefore(temp[0]);
+    setName(names[0]);
+    setBefore(names[0]);
   }, [params]);
 
   const send = () => {
-    const check = storeData[0][0].find((data) => data === name);
+    const category = storeData.categories.find((data) => data === name);
 
-    if (check) {
+    if (category) {
       alert("This category already exists!!");
     } else if (name === "") {
       alert("You need to enter a name before updating!!");
     } else {
-      dispatch({ type: "update", payload: [name, before, "categories"] });
+      dispatch({ type: "update", payload: [name, before, true] });
     }
 
     props.callback();

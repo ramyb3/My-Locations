@@ -7,7 +7,7 @@ export default function AllCategories(props) {
 
   return (
     <ul>
-      {storeData[0][0].map((data, index) => {
+      {storeData.categories.map((data, index) => {
         return (
           <li key={index}>
             <Link

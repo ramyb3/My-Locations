@@ -13,7 +13,9 @@ export default function AddLocation() {
   });
 
   const send = () => {
-    const check = storeData[0][1].find((data) => data.name === location.name); // check other locations with same name
+    const check = storeData.locations.find(
+      (data) => data.name === location.name
+    ); // check other locations with same name
 
     if (check) {
       alert("This location already exists!!");

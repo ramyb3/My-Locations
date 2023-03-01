@@ -7,7 +7,7 @@ export default function AllLocations(props) {
 
   return (
     <ul>
-      {storeData[0][1].map((data, index) => {
+      {storeData.locations.map((data, index) => {
         return (
           <li key={index}>
             <Link

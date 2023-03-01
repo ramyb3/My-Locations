@@ -20,10 +20,10 @@ export default function Location(props) {
   });
 
   useEffect(() => {
-    const temp = params.id.split("+"); // get location name
+    const names = params.id.split("+"); // get location name
 
-    setLocation(storeData[0][1].find((data) => data.name === temp[0]));
-    setBefore(storeData[0][1].find((data) => data.name === temp[0]));
+    setLocation(storeData.locations.find((data) => data.name === names[0]));
+    setBefore(storeData.locations.find((data) => data.name === names[0]));
   }, [params]);
 
   const send = () => {
@@ -42,7 +42,7 @@ export default function Location(props) {
     ) {
       alert("You need to fill all form before updating!!");
     } else {
-      dispatch({ type: "update", payload: [location, before, "locations"] });
+      dispatch({ type: "update", payload: [location, before, false] });
     }
 
     props.callback();

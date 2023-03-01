@@ -8,7 +8,7 @@ export default function AddCategory() {
   const [category, setCategory] = useState("");
 
   const send = () => {
-    const check = storeData[0][0].find((data) => data === category); // check other categories with same name
+    const check = storeData.categories.find((data) => data === category); // check other categories with same name
 
     if (check) {
       alert("This category already exists!!");

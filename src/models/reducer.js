@@ -1,43 +1,43 @@
-function reducer(state = [], action) {
+function reducer(state = {}, action) {
   switch (action.type) {
-    case "LOAD":{
-      return [...state, action.payload];
+    case "LOAD": {
+      return action.payload;
     }
     case "addCategory": {
-      state[0][0].push(action.payload);
-      return [[state[0][0], state[0][1]]];
+      state.categories.push(action.payload);
+      return state;
     }
     case "addLocation": {
-      state[0][1].push(action.payload);
-      return [[state[0][0], state[0][1]]];
+      state.locations.push(action.payload);
+      return state;
     }
     case "update": {
-      if (action.payload[2] === "categories") {
-        const arr = state[0][0].filter((data) => data !== action.payload[1]);
-        arr.push(action.payload[0]);
-        return [[arr, state[0][1]]];
-      }
-      if (action.payload[2] === "locations") {
-        const arr = state[0][1].filter(
-          (data) => data.name !== action.payload[1].name
+      if (action.payload[2]) {
+        state.categories = state.categories.filter(
+          (data) => data !== action.payload[1]
         );
-
-        arr.push(action.payload[0]);
-        return [[state[0][0], arr]];
+        state.categories.push(action.payload[0]);
+      } else {
+        state.locations = state.locations.filter(
+          (data) => data !== action.payload[1]
+        );
+        state.locations.push(action.payload[0]);
       }
+
+      return state;
     }
     case "delete": {
       if (action.payload[2] === "categories") {
-        const arr = state[0][0].filter((data) => data !== action.payload[0]);
-        return [[arr, state[0][1]]];
-      }
-      if (action.payload[2] === "locations") {
-        const arr = state[0][1].filter(
+        state.categories = state.categories.filter(
+          (data) => data !== action.payload[0]
+        );
+      } else {
+        state.locations = state.locations.filter(
           (data) => data.name !== action.payload[0]
         );
-
-        return [[state[0][0], arr]];
       }
+
+      return state;
     }
 
     default:
