@@ -5,7 +5,7 @@ function reducer(state = {}, action) {
     }
     case "add": {
       state[action.payload[1] ? "categories" : "locations"].push(
-        action.payload
+        action.payload[0]
       );
       return state;
     }

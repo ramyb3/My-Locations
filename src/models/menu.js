@@ -80,8 +80,9 @@ export default function Menu() {
               className="link"
               link="/"
               onClick={() => {
-                setCheck(0);
                 dispatch({ type: "delete", payload: storeData.item });
+                dispatch({ type: "clickedItem", payload: [] });
+                setCheck(0);
               }}
               text="Delete"
             />
