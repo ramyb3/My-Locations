@@ -10,9 +10,13 @@ export default function Location(props) {
     category: "",
   });
 
-  return props.edit ? (
-    <Edit type={false} setData={setLocation} data={location} />
-  ) : (
-    <Add type={false} data={location} setData={setLocation} />
+  return (
+    <div className="flex">
+      {props.edit ? (
+        <Edit type={false} setData={setLocation} data={location} />
+      ) : (
+        <Add type={false} data={location} setData={setLocation} />
+      )}
+    </div>
   );
 }

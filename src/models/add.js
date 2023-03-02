@@ -30,7 +30,7 @@ export default function Add(props) {
   };
 
   return (
-    <div className="flex">
+    <>
       {props.type ? (
         <Input
           placeholder="category name"
@@ -67,7 +67,7 @@ export default function Add(props) {
       <Link to={`/all${props.type ? "Categories" : "Locations"}`}>
         <button onClick={send}>Add</button>
       </Link>
-    </div>
+    </>
   );
 }
 
