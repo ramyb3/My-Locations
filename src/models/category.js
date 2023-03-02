@@ -1,8 +1,13 @@
+import Add from "./add";
 import Edit from "./edit";
 import { useState } from "react";
 
-export default function Category() {
+export default function Category(props) {
   const [category, setCategory] = useState("");
 
-  return <Edit type={true} setData={setCategory} data={category} />;
+  return props.edit ? (
+    <Edit type={true} setData={setCategory} data={category} />
+  ) : (
+    <Add type={true} data={category} setData={setCategory} />
+  );
 }

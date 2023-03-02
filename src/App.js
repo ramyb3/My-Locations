@@ -1,8 +1,5 @@
 import Menu from "./models/menu";
-import AllCategories from "./models/allCategories";
-import AddCategory from "./models/addCategory";
-import AllLocations from "./models/allLocations";
-import AddLocation from "./models/addLocation";
+import List from "./models/list";
 import Location from "./models/location";
 import Category from "./models/category";
 import { Route, Routes } from "react-router-dom";
@@ -27,12 +24,14 @@ export default function App() {
     <div style={{ paddingTop: "80px" }}>
       <Routes>
         <Route path="/" element={<Menu />}>
-          <Route path="allCategories" element={<AllCategories />} />
-          <Route path="allLocations" element={<AllLocations />} />
-          <Route path="addCategory" element={<AddCategory />} />
-          <Route path="addLocation" element={<AddLocation />} />
-          <Route path="categories/:id" element={<Category />} />
-          <Route path="locations/:id" element={<Location />} />
+          <Route path="allCategories" element={<List type="categories" />} />
+          <Route path="allLocations" element={<List type="locations" />} />
+
+          <Route path="addCategory" element={<Category edit={false} />} />
+          <Route path="categories/:id" element={<Category edit={true} />} />
+
+          <Route path="addLocation" element={<Location edit={false} />} />
+          <Route path="locations/:id" element={<Location edit={true} />} />
         </Route>
       </Routes>
     </div>
