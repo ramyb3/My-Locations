@@ -7,7 +7,6 @@ export default function Category(props) {
 
   return (
     <div className="flex">
-      {" "}
       {props.edit ? (
         <Edit type={true} setData={setCategory} data={category} />
       ) : (
