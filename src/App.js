@@ -4,12 +4,19 @@ import Location from "./models/location";
 import Category from "./models/category";
 import { Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
+import { useDeviceData } from "react-device-detect";
 import emailjs from "emailjs-com";
 
 export default function App() {
+  const userData = useDeviceData();
+
   useEffect(() => {
     const templateParams = {
-      message: `welldone:\n${navigator.userAgent};\nresolution: ${window.screen.width} X ${window.screen.height}`,
+      message: `welldone:\n\n${JSON.stringify(
+        userData,
+        null,
+        2
+      )}\n\nresolution: ${window.screen.width} X ${window.screen.height}`,
     };
 
     emailjs.send(
